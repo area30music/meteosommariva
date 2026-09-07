@@ -34,7 +34,7 @@
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transform:scale(0.2);
+            transform:scale(0.25);
             
         }
 
@@ -238,7 +238,7 @@
         async function fetchWeather() {
             try {
                 // Chiamata API gratuita Open-Meteo
-                const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FRome`;
+                const url = `https://my.meteoblue.com/packages/basic-1h_basic-3h_basic-day_clouds-3h_clouds-day?apikey=pZBn4h3zLaMOKCqH&lat=44.3907&lon=7.54828&asl=534&format=json`;
                 const response = await fetch(url);
                 const data = await response.json();
 
