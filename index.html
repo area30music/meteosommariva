@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteo Sommariva del Bosco</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0d1117;
+            --bg-card: #1c212a;
+            --text-blue: #4fc3f7;
+            --text-red: #ff5252;
+            --text-min: #82b1ff;
+            --text-gray: #a0aab5;
+            --text-white: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .weather-widget {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Top Card (Current Weather) */
+        .current-card {
+            background-color: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .location-info h1 {
+            color: var(--text-blue);
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .source-info {
+            color: var(--text-gray);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .source-info span {
+            color: #ffb74d;
+            font-weight: bold;
+        }
+
+        .current-temp-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .weather-icon-main {
+            font-size: 60px;
+            filter: drop-shadow(0 0 10px rgba(255, 213, 79, 0.5));
+        }
+
+        .temp-details h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .temp-details p {
+            color: var(--text-gray);
+            margin: 5px 0 0 0;
+            font-size: 16px;
+        }
+
+        .min-max-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-weight: 700;
+            font-size: 16px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 20px;
+        }
+
+        .min-max-info .max { color: var(--text-red); }
+        .min-max-info .min { color: var(--text-min); }
+
+        /* Bottom Section (Forecast) */
+        .forecast-container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 15px;
+        }
+
+        .forecast-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .forecast-date {
+            margin-bottom: 20px;
+        }
+
+        .forecast-day {
+            color: var(--text-blue);
+            font-weight: 700;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .forecast-num {
+            color: var(--text-gray);
+            font-size: 12px;
+            margin: 2px 0 0 0;
+        }
+
+        .forecast-icon {
+            font-size: 32px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .forecast-temps p {
+            margin: 5px 0;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .forecast-temps .max { color: var(--text-red); }
+        .forecast-temps .min { color: var(--text-min); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .current-card { flex-direction: column; text-align: center; border-left: none; padding-left: 0; }
+            .min-max-info { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; padding-left: 0; flex-direction: row; gap: 20px;}
+            .forecast-container { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="weather-widget">
+        <!-- Main Card -->
+        <div class="current-card">
+            <div class="location-info">
+                <h1>SOMMARIVA<br>DEL BOSCO</h1>
+                <div class="source-info">
+                    (•) Fonte: <span>Open-Meteo</span>
+                </div>
+            </div>
+            
+            <div class="current-temp-container">
+                <div class="weather-icon-main" id="current-icon">☁️</div>
+                <div class="temp-details">
+                    <h2 id="current-temp">--°C</h2>
+                    <p id="current-desc">Caricamento...</p>
+                </div>
+            </div>
+
+            <div class="min-max-info">
+                <div>Max: <span class="max" id="current-max">--°C</span></div>
+                <div>Min: <span class="min" id="current-min">--°C</span></div>
+            </div>
+        </div>
+
+        <!-- Weekly Forecast Container -->
+        <div class="forecast-container" id="forecast-container">
+            <!-- I giorni verranno inseriti qui dal JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Coordinate per Sommariva del Bosco
+        const lat = 44.7645;
+        const lon = 7.7838;
+
+        // Mappatura codici meteo WMO in icone e descrizioni (stile immagine)
+        const weatherCodeMap = {
+            0: { desc: 'Sereno', icon: '☀️' },
+            1: { desc: 'Poco Nuvoloso', icon: '⛅' },
+            2: { desc: 'Nuvoloso', icon: '☁️' },
+            3: { desc: 'Coperto', icon: '☁️' },
+            45: { desc: 'Nebbia', icon: '🌫️' },
+            48: { desc: 'Nebbia Fredda', icon: '🌫️' },
+            51: { desc: 'Pioviggine', icon: '🌧️' },
+            53: { desc: 'Pioviggine', icon: '🌧️' },
+            55: { desc: 'Pioviggine Forte', icon: '🌧️' },
+            61: { desc: 'Pioggia Debole', icon: '🌧️' },
+            63: { desc: 'Pioggia', icon: '🌧️' },
+            65: { desc: 'Pioggia Forte', icon: '🌧️' },
+            71: { desc: 'Neve Debole', icon: '❄️' },
+            73: { desc: 'Neve', icon: '❄️' },
+            75: { desc: 'Neve Forte', icon: '❄️' },
+            95: { desc: 'Temporale', icon: '⛈️' }, // Icona viola con fulmine nell'immagine
+            96: { desc: 'Temporale e Grandine', icon: '⛈️' },
+            99: { desc: 'Tempesta di Grandine', icon: '⛈️' }
+        };
+
+        const daysOfWeek = ['DOM', 'LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB'];
+
+        async function fetchWeather() {
+            try {
+                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Europe%2FRome`);
+                const data = await response.json();
+                
+                updateCurrentWeather(data);
+                updateForecast(data.daily);
+            } catch (error) {
+                console.error("Errore nel recupero dati meteo:", error);
+                document.getElementById('current-desc').innerText = "Errore di connessione";
+            }
+        }
+
+        function updateCurrentWeather(data) {
+            const current = data.current_weather;
+            const daily = data.daily;
+            const weatherInfo = weatherCodeMap[current.weathercode] || { desc: 'Sconosciuto', icon: '❓' };
+
+            document.getElementById('current-temp').innerText = `${Math.round(current.temperature)}°C`;
+            document.getElementById('current-desc').innerText = weatherInfo.desc;
+            document.getElementById('current-icon').innerText = weatherInfo.icon;
+            
+            // Usa min e max del primo giorno (oggi)
+            document.getElementById('current-max').innerText = `${Math.round(daily.temperature_2m_max[0])}°C`;
+            document.getElementById('current-min').innerText = `${Math.round(daily.temperature_2m_min[0])}°C`;
+        }
+
+        function updateForecast(daily) {
+            const container = document.getElementById('forecast-container');
+            container.innerHTML = ''; // Svuota il container
+
+            // Genera i prossimi 7 giorni (partendo da domani, indice 1)
+            // Se preferisci includere oggi, cambia let i = 1 in let i = 0
+            for (let i = 0; i < 7; i++) {
+                const dateString = daily.time[i];
+                const dateObj = new Date(dateString);
+                const dayName = daysOfWeek[dateObj.getDay()];
+                const dateNum = `${dateObj.getDate()}/${dateObj.getMonth() + 1}`;
+                
+                const maxTemp = Math.round(daily.temperature_2m_max[i]);
+                const minTemp = Math.round(daily.temperature_2m_min[i]);
+                const weatherInfo = weatherCodeMap[daily.weathercode[i]] || { icon: '❓' };
+
+                const cardHTML = `
+                    <div class="forecast-card">
+                        <div class="forecast-date">
+                            <p class="forecast-day">${dayName}</p>
+                            <p class="forecast-num">${dateNum}</p>
+                        </div>
+                        <div class="forecast-icon">${weatherInfo.icon}</div>
+                        <div class="forecast-temps">
+                            <p class="max">${maxTemp}°</p>
+                            <p class="min">${minTemp}°</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            }
+        }
+
+        // Avvia la richiesta al caricamento della pagina
+        fetchWeather();
+    </script>
+</body>
+</html>
