@@ -14,6 +14,11 @@
             --text-min: #82b1ff;
             --text-gray: #a0aab5;
             --text-white: #ffffff;
+            --yellow-glow: rgba(255, 183, 77, 0.4);
+            --icon-yellow: #ffb74d;
+            --icon-cloud: #90a4ae;
+            --icon-rain: #29b6f6;
+            --icon-storm: #ffb300;
         }
 
         body {
@@ -65,7 +70,7 @@
         }
 
         .source-info span {
-            color: #ffb74d;
+            color: var(--icon-yellow);
             font-weight: bold;
         }
 
@@ -76,10 +81,9 @@
         }
 
         .weather-icon-main {
-            width: 80px;
-            height: 80px;
-            fill: #ffb74d;
-            filter: drop-shadow(0 0 12px rgba(255, 213, 79, 0.6));
+            width: 90px;
+            height: 90px;
+            filter: drop-shadow(0 0 15px var(--yellow-glow));
         }
 
         .temp-details h2 {
@@ -143,8 +147,8 @@
         }
 
         .forecast-icon {
-            width: 45px;
-            height: 45px;
+            width: 55px;
+            height: 55px;
             margin-bottom: 25px;
             flex-grow: 1;
         }
@@ -171,9 +175,9 @@
             </div>
             
             <div class="current-temp-container">
-                <svg class="weather-icon-main" id="current-icon" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm2 14h-4v-1h4v1zm0-2h-4v-1h4v1zm0-2h-4v-1h4v1zm-2-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
-                </svg>
+                <div id="current-icon-wrapper">
+                    <!-- Icona principale -->
+                </div>
                 <div class="temp-details">
                     <h2 id="current-temp">--°C</h2>
                     <p id="current-desc">Caricamento...</p>
@@ -194,25 +198,25 @@
         const lat = 44.7645;
         const lon = 7.7838;
 
-        const weatherIcons = {
-            clear: `<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#ffb74d"/></svg>`,
-            cloudy: `<svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-2.81 0-5.26 1.5-6.52 3.73C3.52 8.44 2 10.51 2 13.5c0 3.31 2.69 6 6 6h11c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="#90a4ae"/></svg>`,
-            partlyCloudy: `<svg viewBox="0 0 24 24"><path d="M12 2c-3.87 0-7 3.13-7 7 0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm6 11c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="#ffb74d"/></svg>`,
-            rain: `<svg viewBox="0 0 24 24"><path d="M18 11c-.34 0-.67.03-1 .09C16.32 8.08 13.52 6 10 6c-3.31 0-6 2.69-6 6 0 .78.15 1.53.41 2.22C3.12 14.77 2 16.27 2 18c0 2.21 1.79 4 4 4h12c2.21 0 4-1.79 4-4 0-2.64-2.05-4.78-4.65-4.96z" fill="#78909c"/><path d="M7 23h2v-2H7v2zm0-4h2v-2H7v2zm4 4h2v-2h-2v2zm0-4h2v-2h-2v2zm4 4h2v-2h-2v2zm0-4h2v-2h-2v2z" fill="#0288d1"/></svg>`,
-            snow: `<svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-2.81 0-5.26 1.5-6.52 3.73C3.52 8.44 2 10.51 2 13.5c0 3.31 2.69 6 6 6h11c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="#90a4ae"/><path d="M7 18h2v-2H7v2zm8 0h2v-2h-2v2zm-4 2h2v-2h-2v2zm0-4h2v-2h-2v2z" fill="#ffffff"/></svg>`,
-            storm: `<svg viewBox="0 0 24 24"><path d="M19 4h-4l-3 6h3l-4 6 1-4H8l4-8h-3l3-6z" fill="#ffb74d"/></svg>`
+        const icons = {
+            clear: `<svg class="weather-icon-main" viewBox="0 0 24 24" fill="none"><path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" fill="${'var(--icon-yellow)'}"/><path d="M12 2V3" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M12 21V22" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M2 12H3" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M21 12H22" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M4.92871 4.92969L5.63582 5.63679" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M18.3633 18.3643L19.0704 19.0714" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M18.3633 4.92969L19.0704 5.63679" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M4.92871 18.3643L5.63582 19.0714" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/></svg>`,
+            partlyCloudy: `<svg class="weather-icon-main" viewBox="0 0 24 24" fill="none"><path d="M10 18C12.2091 18 14 16.2091 14 14C14 11.7909 12.2091 10 10 10C7.79086 10 6 11.7909 6 14C6 16.2091 7.79086 18 10 18Z" fill="${'var(--icon-yellow)'}"/><path d="M10 6V7" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M16 12H17" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M5.92871 7.92969L6.63582 8.63679" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M14.0708 16.0713L14.7779 16.7784" stroke="${'var(--icon-yellow)'}" stroke-width="2" stroke-linecap="round"/><path d="M17 18H20C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H18C18 13.7909 16.2091 12 14 12C13.5658 12 13.1492 12.072 12.7634 12.205C12.3152 10.8719 11.0664 9.91992 9.60001 9.91992C8.75232 9.91992 7.97341 10.2526 7.35905 10.8038C6.54117 10.3015 5.58025 10.08 4.60001 10.08C3.17393 10.08 1.83857 10.8358 1.09635 12.0463C0.354131 13.2568 0.29748 14.7836 0.947239 16.0466C1.597 17.3096 2.91572 18.0673 4.33129 18.08C4.55106 18.0822 4.77123 18.0822 4.99268 18.0805C5.55556 18.0805 6 17.6361 6 17.0805C6 16.525 5.55556 16.0805 4.99268 16.0805C4.22681 16.0805 3.52303 15.6888 3.14283 15.0294C2.76263 14.37 2.76263 13.5599 3.14283 12.9006C3.52303 12.2411 4.22681 11.8495 4.99268 11.8495C5.46782 11.8495 5.92211 11.9961 6.30231 12.2612L6.8778 12.6625L7.33757 12.2285C7.71261 11.8741 8.21203 11.6799 8.73001 11.6799C9.24799 11.6799 9.74741 11.8741 10.1224 12.2285L10.5822 12.6625L11.1577 12.2612C11.5379 11.9961 11.9922 11.8495 12.4673 11.8495C13.313 11.8495 14.0772 12.3276 14.4727 13.067L14.8001 13.68H15.5C15.8315 13.68 16.1495 13.8116 16.3839 14.046C16.6183 14.2804 16.75 14.5984 16.75 14.93C16.75 15.2615 16.6183 15.5795 16.3839 15.8139C16.1495 16.0483 15.8315 16.18 15.5 16.18H15V17" stroke="url(#paint0_linear_cloud)" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="paint0_linear_cloud" x1="0" y1="10" x2="21" y2="10" gradientUnits="userSpaceOnUse"><stop stop-color="${'var(--icon-cloud)'}"/><stop offset="1" stop-color="${'var(--icon-cloud)'}"/></linearGradient></defs></svg>`,
+            cloudy: `<svg class="weather-icon-main" viewBox="0 0 24 24" fill="none"><path d="M17 18H20C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H18C18 13.7909 16.2091 12 14 12C13.5658 12 13.1492 12.072 12.7634 12.205C12.3152 10.8719 11.0664 9.91992 9.60001 9.91992C8.75232 9.91992 7.97341 10.2526 7.35905 10.8038C6.54117 10.3015 5.58025 10.08 4.60001 10.08C3.17393 10.08 1.83857 10.8358 1.09635 12.0463C0.354131 13.2568 0.29748 14.7836 0.947239 16.0466C1.597 17.3096 2.91572 18.0673 4.33129 18.08C4.55106 18.0822 4.77123 18.0822 4.99268 18.0805C5.55556 18.0805 6 17.6361 6 17.0805C6 16.525 5.55556 16.0805 4.99268 16.0805C4.22681 16.0805 3.52303 15.6888 3.14283 15.0294C2.76263 14.37 2.76263 13.5599 3.14283 12.9006C3.52303 12.2411 4.22681 11.8495 4.99268 11.8495C5.46782 11.8495 5.92211 11.9961 6.30231 12.2612L6.8778 12.6625L7.33757 12.2285C7.71261 11.8741 8.21203 11.6799 8.73001 11.6799C9.24799 11.6799 9.74741 11.8741 10.1224 12.2285L10.5822 12.6625L11.1577 12.2612C11.5379 11.9961 11.9922 11.8495 12.4673 11.8495C13.313 11.8495 14.0772 12.3276 14.4727 13.067L14.8001 13.68H15.5C15.8315 13.68 16.1495 13.8116 16.3839 14.046C16.6183 14.2804 16.75 14.5984 16.75 14.93C16.75 15.2615 16.6183 15.5795 16.3839 15.8139C16.1495 16.0483 15.8315 16.18 15.5 16.18H15V17" stroke="${'var(--icon-cloud)'}" stroke-width="2" stroke-linecap="round"/></svg>`,
+            rain: `<svg class="weather-icon-main" viewBox="0 0 24 24" fill="none"><path d="M17 18H20C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H18C18 13.7909 16.2091 12 14 12C13.5658 12 13.1492 12.072 12.7634 12.205C12.3152 10.8719 11.0664 9.91992 9.60001 9.91992C8.75232 9.91992 7.97341 10.2526 7.35905 10.8038C6.54117 10.3015 5.58025 10.08 4.60001 10.08C3.17393 10.08 1.83857 10.8358 1.09635 12.0463C0.354131 13.2568 0.29748 14.7836 0.947239 16.0466C1.597 17.3096 2.91572 18.0673 4.33129 18.08C4.55106 18.0822 4.77123 18.0822 4.99268 18.0805C5.55556 18.0805 6 17.6361 6 17.0805C6 16.525 5.55556 16.0805 4.99268 16.0805C4.22681 16.0805 3.52303 15.6888 3.14283 15.0294C2.76263 14.37 2.76263 13.5599 3.14283 12.9006C3.52303 12.2411 4.22681 11.8495 4.99268 11.8495C5.46782 11.8495 5.92211 11.9961 6.30231 12.2612L6.8778 12.6625L7.33757 12.2285C7.71261 11.8741 8.21203 11.6799 8.73001 11.6799C9.24799 11.6799 9.74741 11.8741 10.1224 12.2285L10.5822 12.6625L11.1577 12.2612C11.5379 11.9961 11.9922 11.8495 12.4673 11.8495C13.313 11.8495 14.0772 12.3276 14.4727 13.067L14.8001 13.68H15.5C15.8315 13.68 16.1495 13.8116 16.3839 14.046C16.6183 14.2804 16.75 14.5984 16.75 14.93C16.75 15.2615 16.6183 15.5795 16.3839 15.8139C16.1495 16.0483 15.8315 16.18 15.5 16.18H15V17" stroke="${'var(--icon-cloud)'}" stroke-width="2" stroke-linecap="round"/><path d="M6 20V22" stroke="${'var(--icon-rain)'}" stroke-width="2" stroke-linecap="round"/><path d="M10 20V22" stroke="${'var(--icon-rain)'}" stroke-width="2" stroke-linecap="round"/><path d="M14 20V22" stroke="${'var(--icon-rain)'}" stroke-width="2" stroke-linecap="round"/><path d="M18 20V22" stroke="${'var(--icon-rain)'}" stroke-width="2" stroke-linecap="round"/></svg>`,
+            snow: `<svg class="weather-icon-main" viewBox="0 0 24 24" fill="none"><path d="M17 18H20C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H18C18 13.7909 16.2091 12 14 12C13.5658 12 13.1492 12.072 12.7634 12.205C12.3152 10.8719 11.0664 9.91992 9.60001 9.91992C8.75232 9.91992 7.97341 10.2526 7.35905 10.8038C6.54117 10.3015 5.58025 10.08 4.60001 10.08C3.17393 10.08 1.83857 10.8358 1.09635 12.0463C0.354131 13.2568 0.29748 14.7836 0.947239 16.0466C1.597 17.3096 2.91572 18.0673 4.33129 18.08C4.55106 18.0822 4.77123 18.0822 4.99268 18.0805C5.55556 18.0805 6 17.6361 6 17.0805C6 16.525 5.55556 16.0805 4.99268 16.0805C4.22681 16.0805 3.52303 15.6888 3.14283 15.0294C2.76263 14.37 2.76263 13.5599 3.14283 12.9006C3.52303 12.2411 4.22681 11.8495 4.99268 11.8495C5.46782 11.8495 5.92211 11.9961 6.30231 12.2612L6.8778 12.6625L7.33757 12.2285C7.71261 11.8741 8.21203 11.6799 8.73001 11.6799C9.24799 11.6799 9.74741 11.8741 10.1224 12.2285L10.5822 12.6625L11.1577 12.2612C11.5379 11.9961 11.9922 11.8495 12.4673 11.8495C13.313 11.8495 14.0772 12.3276 14.4727 13.067L14.8001 13.68H15.5C15.8315 13.68 16.1495 13.8116 16.3839 14.046C16.6183 14.2804 16.75 14.5984 16.75 14.93C16.75 15.2615 16.6183 15.5795 16.3839 15.8139C16.1495 16.0483 15.8315 16.18 15.5 16.18H15V17" stroke="${'var(--icon-cloud)'}" stroke-width="2" stroke-linecap="round"/><path d="M6 19L8 21" stroke="${'var(--text-white)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 19L12 21" stroke="${'var(--text-white)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 19L16 21" stroke="${'var(--text-white)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 19L20 21" stroke="${'var(--text-white)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+            storm: `<svg class="weather-icon-main" viewBox="0 0 24 24" fill="none"><path d="M17 18H20C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H18C18 13.7909 16.2091 12 14 12C13.5658 12 13.1492 12.072 12.7634 12.205C12.3152 10.8719 11.0664 9.91992 9.60001 9.91992C8.75232 9.91992 7.97341 10.2526 7.35905 10.8038C6.54117 10.3015 5.58025 10.08 4.60001 10.08C3.17393 10.08 1.83857 10.8358 1.09635 12.0463C0.354131 13.2568 0.29748 14.7836 0.947239 16.0466C1.597 17.3096 2.91572 18.0673 4.33129 18.08C4.55106 18.0822 4.77123 18.0822 4.99268 18.0805C5.55556 18.0805 6 17.6361 6 17.0805C6 16.525 5.55556 16.0805 4.99268 16.0805C4.22681 16.0805 3.52303 15.6888 3.14283 15.0294C2.76263 14.37 2.76263 13.5599 3.14283 12.9006C3.52303 12.2411 4.22681 11.8495 4.99268 11.8495C5.46782 11.8495 5.92211 11.9961 6.30231 12.2612L6.8778 12.6625L7.33757 12.2285C7.71261 11.8741 8.21203 11.6799 8.73001 11.6799C9.24799 11.6799 9.74741 11.8741 10.1224 12.2285L10.5822 12.6625L11.1577 12.2612C11.5379 11.9961 11.9922 11.8495 12.4673 11.8495C13.313 11.8495 14.0772 12.3276 14.4727 13.067L14.8001 13.68H15.5C15.8315 13.68 16.1495 13.8116 16.3839 14.046C16.6183 14.2804 16.75 14.5984 16.75 14.93C16.75 15.2615 16.6183 15.5795 16.3839 15.8139C16.1495 16.0483 15.8315 16.18 15.5 16.18H15V17" stroke="${'var(--icon-cloud)'}" stroke-width="2" stroke-linecap="round"/><path d="M12 18L10 22H14L12 26" fill="${'var(--icon-storm)'}" stroke="${'var(--icon-storm)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
         };
 
         const weatherCodeMap = {
-            0: { desc: 'Sereno', icon: weatherIcons.clear },
-            1: { desc: 'Poco Nuvoloso', icon: weatherIcons.partlyCloudy },
-            2: { desc: 'Nuvoloso', icon: weatherIcons.cloudy },
-            3: { desc: 'Coperto', icon: weatherIcons.cloudy },
-            45: { desc: 'Nebbia', icon: weatherIcons.cloudy },
-            61: { desc: 'Pioggia', icon: weatherIcons.rain },
-            63: { desc: 'Pioggia', icon: weatherIcons.rain },
-            71: { desc: 'Neve', icon: weatherIcons.snow },
-            95: { desc: 'Temporale', icon: weatherIcons.storm }
+            0: { desc: 'Sereno', iconMain: icons.clear, iconSmall: icons.clear },
+            1: { desc: 'Poco Nuvoloso', iconMain: icons.partlyCloudy, iconSmall: icons.partlyCloudy },
+            2: { desc: 'Nuvoloso', iconMain: icons.cloudy, iconSmall: icons.cloudy },
+            3: { desc: 'Coperto', iconMain: icons.cloudy, iconSmall: icons.cloudy },
+            45: { desc: 'Nebbia', iconMain: icons.cloudy, iconSmall: icons.cloudy },
+            61: { desc: 'Pioggia', iconMain: icons.rain, iconSmall: icons.rain },
+            63: { desc: 'Pioggia', iconMain: icons.rain, iconSmall: icons.rain },
+            71: { desc: 'Neve', iconMain: icons.snow, iconSmall: icons.snow },
+            95: { desc: 'Temporale', iconMain: icons.storm, iconSmall: icons.storm }
         };
 
         const daysOfWeek = ['DOM', 'LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB'];
@@ -225,17 +229,18 @@
                 updateForecast(data.daily);
             } catch (error) {
                 console.error("Errore:", error);
+                document.getElementById('current-desc').innerText = "Errore di connessione";
             }
         }
 
         function updateCurrentWeather(data) {
             const current = data.current_weather;
             const daily = data.daily;
-            const weatherInfo = weatherCodeMap[current.weathercode] || { desc: 'Nuvoloso', icon: weatherIcons.cloudy };
+            const weatherInfo = weatherCodeMap[current.weathercode] || { desc: 'Nuvoloso', iconMain: icons.cloudy };
 
             document.getElementById('current-temp').innerText = `${Math.round(current.temperature)}°C`;
             document.getElementById('current-desc').innerText = weatherInfo.desc;
-            document.getElementById('current-icon').outerHTML = weatherInfo.icon.replace('width="24"', 'width="80"').replace('height="24"', 'height="80"').replace('class="weather-icon-main"', 'class="weather-icon-main"');
+            document.getElementById('current-icon-wrapper').innerHTML = weatherInfo.iconMain;
             document.getElementById('current-max').innerText = `${Math.round(daily.temperature_2m_max[0])}°C`;
             document.getElementById('current-min').innerText = `${Math.round(daily.temperature_2m_min[0])}°C`;
         }
@@ -247,7 +252,7 @@
                 const dateObj = new Date(daily.time[i]);
                 const dayName = daysOfWeek[dateObj.getDay()];
                 const dateNum = `${dateObj.getDate()}/${dateObj.getMonth() + 1}`;
-                const weatherInfo = weatherCodeMap[daily.weathercode[i]] || { icon: weatherIcons.cloudy };
+                const weatherInfo = weatherCodeMap[daily.weathercode[i]] || { iconSmall: icons.cloudy };
                 
                 const cardHTML = `
                     <div class="forecast-card">
@@ -255,7 +260,7 @@
                             <p class="forecast-day">${dayName}</p>
                             <p class="forecast-num">${dateNum}</p>
                         </div>
-                        <div class="forecast-icon">${weatherInfo.icon}</div>
+                        <div class="forecast-icon">${weatherInfo.iconSmall}</div>
                         <div class="forecast-temps">
                             <p class="max">${Math.round(daily.temperature_2m_max[i])}°</p>
                             <p class="min">${Math.round(daily.temperature_2m_min[i])}°</p>
