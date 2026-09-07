@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1240, height=700, initial-scale=1.0">
     <title>Meteo Sommariva del Bosco</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -23,35 +23,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            width: 1240px;
+            height: 700px;
             margin: 0;
-            padding: 20px;
+            overflow: hidden;
         }
 
         .weather-widget {
-            max-width: 900px;
-            width: 100%;
+            width: 1100px;
+            height: 600px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
 
-        /* Top Card (Current Weather) */
         .current-card {
             background-color: var(--bg-card);
             border-radius: 20px;
-            padding: 30px 40px;
+            padding: 35px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            flex-wrap: wrap;
-            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .location-info h1 {
             color: var(--text-blue);
-            font-size: 32px;
+            font-size: 38px;
             font-weight: 900;
             line-height: 1.1;
             margin: 0 0 10px 0;
@@ -60,10 +58,10 @@
 
         .source-info {
             color: var(--text-gray);
-            font-size: 12px;
+            font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
         }
 
         .source-info span {
@@ -74,16 +72,18 @@
         .current-temp-container {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .weather-icon-main {
-            font-size: 60px;
-            filter: drop-shadow(0 0 10px rgba(255, 213, 79, 0.5));
+            width: 80px;
+            height: 80px;
+            fill: #ffb74d;
+            filter: drop-shadow(0 0 12px rgba(255, 213, 79, 0.6));
         }
 
         .temp-details h2 {
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 700;
             margin: 0;
         }
@@ -91,86 +91,77 @@
         .temp-details p {
             color: var(--text-gray);
             margin: 5px 0 0 0;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .min-max-info {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 18px;
             border-left: 1px solid rgba(255,255,255,0.1);
-            padding-left: 20px;
+            padding-left: 30px;
         }
 
         .min-max-info .max { color: var(--text-red); }
         .min-max-info .min { color: var(--text-min); }
 
-        /* Bottom Section (Forecast) */
         .forecast-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 15px;
+            gap: 20px;
+            height: 300px;
         }
 
         .forecast-card {
             background-color: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px 10px;
+            border-radius: 20px;
+            padding: 25px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .forecast-date {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .forecast-day {
             color: var(--text-blue);
             font-weight: 700;
-            font-size: 16px;
+            font-size: 18px;
             margin: 0;
         }
 
         .forecast-num {
             color: var(--text-gray);
-            font-size: 12px;
-            margin: 2px 0 0 0;
+            font-size: 14px;
+            margin: 4px 0 0 0;
         }
 
         .forecast-icon {
-            font-size: 32px;
-            margin-bottom: 20px;
+            width: 45px;
+            height: 45px;
+            margin-bottom: 25px;
             flex-grow: 1;
-            display: flex;
-            align-items: center;
         }
 
         .forecast-temps p {
-            margin: 5px 0;
+            margin: 6px 0;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .forecast-temps .max { color: var(--text-red); }
         .forecast-temps .min { color: var(--text-min); }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .current-card { flex-direction: column; text-align: center; border-left: none; padding-left: 0; }
-            .min-max-info { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; padding-left: 0; flex-direction: row; gap: 20px;}
-            .forecast-container { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
-        }
     </style>
 </head>
 <body>
 
     <div class="weather-widget">
-        <!-- Main Card -->
         <div class="current-card">
             <div class="location-info">
                 <h1>SOMMARIVA<br>DEL BOSCO</h1>
@@ -180,7 +171,9 @@
             </div>
             
             <div class="current-temp-container">
-                <div class="weather-icon-main" id="current-icon">☁️</div>
+                <svg class="weather-icon-main" id="current-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm2 14h-4v-1h4v1zm0-2h-4v-1h4v1zm0-2h-4v-1h4v1zm-2-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                </svg>
                 <div class="temp-details">
                     <h2 id="current-temp">--°C</h2>
                     <p id="current-desc">Caricamento...</p>
@@ -193,37 +186,33 @@
             </div>
         </div>
 
-        <!-- Weekly Forecast Container -->
         <div class="forecast-container" id="forecast-container">
-            <!-- I giorni verranno inseriti qui dal JavaScript -->
         </div>
     </div>
 
     <script>
-        // Coordinate per Sommariva del Bosco
         const lat = 44.7645;
         const lon = 7.7838;
 
-        // Mappatura codici meteo WMO in icone e descrizioni (stile immagine)
+        const weatherIcons = {
+            clear: `<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#ffb74d"/></svg>`,
+            cloudy: `<svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-2.81 0-5.26 1.5-6.52 3.73C3.52 8.44 2 10.51 2 13.5c0 3.31 2.69 6 6 6h11c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="#90a4ae"/></svg>`,
+            partlyCloudy: `<svg viewBox="0 0 24 24"><path d="M12 2c-3.87 0-7 3.13-7 7 0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm6 11c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="#ffb74d"/></svg>`,
+            rain: `<svg viewBox="0 0 24 24"><path d="M18 11c-.34 0-.67.03-1 .09C16.32 8.08 13.52 6 10 6c-3.31 0-6 2.69-6 6 0 .78.15 1.53.41 2.22C3.12 14.77 2 16.27 2 18c0 2.21 1.79 4 4 4h12c2.21 0 4-1.79 4-4 0-2.64-2.05-4.78-4.65-4.96z" fill="#78909c"/><path d="M7 23h2v-2H7v2zm0-4h2v-2H7v2zm4 4h2v-2h-2v2zm0-4h2v-2h-2v2zm4 4h2v-2h-2v2zm0-4h2v-2h-2v2z" fill="#0288d1"/></svg>`,
+            snow: `<svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-2.81 0-5.26 1.5-6.52 3.73C3.52 8.44 2 10.51 2 13.5c0 3.31 2.69 6 6 6h11c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="#90a4ae"/><path d="M7 18h2v-2H7v2zm8 0h2v-2h-2v2zm-4 2h2v-2h-2v2zm0-4h2v-2h-2v2z" fill="#ffffff"/></svg>`,
+            storm: `<svg viewBox="0 0 24 24"><path d="M19 4h-4l-3 6h3l-4 6 1-4H8l4-8h-3l3-6z" fill="#ffb74d"/></svg>`
+        };
+
         const weatherCodeMap = {
-            0: { desc: 'Sereno', icon: '☀️' },
-            1: { desc: 'Poco Nuvoloso', icon: '⛅' },
-            2: { desc: 'Nuvoloso', icon: '☁️' },
-            3: { desc: 'Coperto', icon: '☁️' },
-            45: { desc: 'Nebbia', icon: '🌫️' },
-            48: { desc: 'Nebbia Fredda', icon: '🌫️' },
-            51: { desc: 'Pioviggine', icon: '🌧️' },
-            53: { desc: 'Pioviggine', icon: '🌧️' },
-            55: { desc: 'Pioviggine Forte', icon: '🌧️' },
-            61: { desc: 'Pioggia Debole', icon: '🌧️' },
-            63: { desc: 'Pioggia', icon: '🌧️' },
-            65: { desc: 'Pioggia Forte', icon: '🌧️' },
-            71: { desc: 'Neve Debole', icon: '❄️' },
-            73: { desc: 'Neve', icon: '❄️' },
-            75: { desc: 'Neve Forte', icon: '❄️' },
-            95: { desc: 'Temporale', icon: '⛈️' }, // Icona viola con fulmine nell'immagine
-            96: { desc: 'Temporale e Grandine', icon: '⛈️' },
-            99: { desc: 'Tempesta di Grandine', icon: '⛈️' }
+            0: { desc: 'Sereno', icon: weatherIcons.clear },
+            1: { desc: 'Poco Nuvoloso', icon: weatherIcons.partlyCloudy },
+            2: { desc: 'Nuvoloso', icon: weatherIcons.cloudy },
+            3: { desc: 'Coperto', icon: weatherIcons.cloudy },
+            45: { desc: 'Nebbia', icon: weatherIcons.cloudy },
+            61: { desc: 'Pioggia', icon: weatherIcons.rain },
+            63: { desc: 'Pioggia', icon: weatherIcons.rain },
+            71: { desc: 'Neve', icon: weatherIcons.snow },
+            95: { desc: 'Temporale', icon: weatherIcons.storm }
         };
 
         const daysOfWeek = ['DOM', 'LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB'];
@@ -232,45 +221,34 @@
             try {
                 const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Europe%2FRome`);
                 const data = await response.json();
-                
                 updateCurrentWeather(data);
                 updateForecast(data.daily);
             } catch (error) {
-                console.error("Errore nel recupero dati meteo:", error);
-                document.getElementById('current-desc').innerText = "Errore di connessione";
+                console.error("Errore:", error);
             }
         }
 
         function updateCurrentWeather(data) {
             const current = data.current_weather;
             const daily = data.daily;
-            const weatherInfo = weatherCodeMap[current.weathercode] || { desc: 'Sconosciuto', icon: '❓' };
+            const weatherInfo = weatherCodeMap[current.weathercode] || { desc: 'Nuvoloso', icon: weatherIcons.cloudy };
 
             document.getElementById('current-temp').innerText = `${Math.round(current.temperature)}°C`;
             document.getElementById('current-desc').innerText = weatherInfo.desc;
-            document.getElementById('current-icon').innerText = weatherInfo.icon;
-            
-            // Usa min e max del primo giorno (oggi)
+            document.getElementById('current-icon').outerHTML = weatherInfo.icon.replace('width="24"', 'width="80"').replace('height="24"', 'height="80"').replace('class="weather-icon-main"', 'class="weather-icon-main"');
             document.getElementById('current-max').innerText = `${Math.round(daily.temperature_2m_max[0])}°C`;
             document.getElementById('current-min').innerText = `${Math.round(daily.temperature_2m_min[0])}°C`;
         }
 
         function updateForecast(daily) {
             const container = document.getElementById('forecast-container');
-            container.innerHTML = ''; // Svuota il container
-
-            // Genera i prossimi 7 giorni (partendo da domani, indice 1)
-            // Se preferisci includere oggi, cambia let i = 1 in let i = 0
+            container.innerHTML = '';
             for (let i = 0; i < 7; i++) {
-                const dateString = daily.time[i];
-                const dateObj = new Date(dateString);
+                const dateObj = new Date(daily.time[i]);
                 const dayName = daysOfWeek[dateObj.getDay()];
                 const dateNum = `${dateObj.getDate()}/${dateObj.getMonth() + 1}`;
+                const weatherInfo = weatherCodeMap[daily.weathercode[i]] || { icon: weatherIcons.cloudy };
                 
-                const maxTemp = Math.round(daily.temperature_2m_max[i]);
-                const minTemp = Math.round(daily.temperature_2m_min[i]);
-                const weatherInfo = weatherCodeMap[daily.weathercode[i]] || { icon: '❓' };
-
                 const cardHTML = `
                     <div class="forecast-card">
                         <div class="forecast-date">
@@ -279,8 +257,8 @@
                         </div>
                         <div class="forecast-icon">${weatherInfo.icon}</div>
                         <div class="forecast-temps">
-                            <p class="max">${maxTemp}°</p>
-                            <p class="min">${minTemp}°</p>
+                            <p class="max">${Math.round(daily.temperature_2m_max[i])}°</p>
+                            <p class="min">${Math.round(daily.temperature_2m_min[i])}°</p>
                         </div>
                     </div>
                 `;
@@ -288,7 +266,6 @@
             }
         }
 
-        // Avvia la richiesta al caricamento della pagina
         fetchWeather();
     </script>
 </body>
