@@ -238,7 +238,7 @@
         async function fetchWeather() {
             try {
                 // Chiamata API gratuita Open-Meteo
-                const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FRome%models=ecmwf_ifs04`;
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FRome`;
                 const response = await fetch(url);
                 const data = await response.json();
 
