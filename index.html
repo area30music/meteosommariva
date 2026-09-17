@@ -279,13 +279,13 @@
                 const current = data.current_weather;
                 
                 // --- GESTIONE TEMA CHIARO/SCURO ---
-                /*// Open-Meteo restituisce is_day: 1 (giorno) o 0 (notte)
+                // Open-Meteo restituisce is_day: 1 (giorno) o 0 (notte)
                 if (current.is_day === 0) {
                     document.body.classList.add('dark-mode');
                 } else {
                     document.body.classList.remove('dark-mode');
                 }
-                */
+                
                 const todayInfo = getWeatherInfo(current.weathercode);
                 
                 document.getElementById('current-temp').innerText = `${Math.round(current.temperature)}°C`;
