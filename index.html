@@ -6,17 +6,18 @@
     <title>Meteo Sommariva del Bosco</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Variabili Tema Chiaro (Stile iOS - Default) */
+        /* Variabili Tema Chiaro (Ottimizzato per alto contrasto e anti-abbagliamento LED) */
         :root {
-            --bg-page: #f2f2f7;
-            --bg-widget: #ffffff;
-            --bg-section: #f5f5f7;
-            --text-primary: #1c1c1e;
-            --text-secondary: #8e8e93;
-            --text-desc: #3a3a3c;
-            --border-color: #d1d1d6;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --icon-shadow: rgba(0, 0, 0, 0.1);
+            --bg-page: #d4d4d9;
+            --bg-widget: #e5e5ea;
+            --bg-section: #d1d1d6;
+            --text-primary: #000000;
+            --text-secondary: #3a3a3c;
+            --text-desc: #1c1c1e;
+            --border-color: #a1a1a6;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --icon-shadow: rgba(0, 0, 0, 0.15);
+            --city-gradient: linear-gradient(90deg, #0056b3, #0077ff);
         }
 
         /* Variabili Tema Scuro (Attivato di notte) */
@@ -25,11 +26,12 @@
             --bg-widget: #12141c;
             --bg-section: #1a1e29;
             --text-primary: #ffffff;
-            --text-secondary: #8892b0;
-            --text-desc: #a0aec0;
+            --text-secondary: #a0aec0;
+            --text-desc: #cbd5e1;
             --border-color: #2d3748;
-            --shadow-color: rgba(0, 0, 0, 0.5);
+            --shadow-color: rgba(0, 0, 0, 0.6);
             --icon-shadow: rgba(255, 215, 0, 0.4);
+            --city-gradient: linear-gradient(90deg, #3ab0ff, #00f2fe);
         }
 
         /* Reset e Base */
@@ -50,13 +52,13 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* Dimensioni esatte richieste */
+        /* Dimensioni widget inalterate, riempimento ottimizzato */
         #weather-widget {
             width: 1240px;
             height: 700px;
             background-color: var(--bg-widget);
             border-radius: 20px;
-            padding: 40px;
+            padding: 35px 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -69,19 +71,19 @@
         .top-section {
             background-color: var(--bg-section);
             border-radius: 20px;
-            padding: 40px 50px;
+            padding: 30px 45px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 250px;
+            height: 270px;
             transition: background-color 0.5s ease;
         }
 
         .city-info h1 {
-            font-size: 55px;
-            line-height: 1.1;
+            font-size: 66px; /* Ingrandito */
+            line-height: 1.05;
             font-weight: 800;
-            background: linear-gradient(90deg, #3ab0ff, #00f2fe);
+            background: var(--city-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
@@ -90,20 +92,20 @@
         .source-text {
             color: var(--text-secondary);
             margin-top: 15px;
-            font-size: 16px;
+            font-size: 20px; /* Ingrandito */
         }
 
-        .source-text span { color: #f39c12; font-weight: 600; }
+        .source-text span { color: #f39c12; font-weight: 800; }
 
         .current-weather {
             display: flex;
             align-items: center;
-            gap: 40px;
+            gap: 30px;
         }
 
         .current-icon svg {
-            width: 140px;
-            height: 140px;
+            width: 150px; /* Ingrandito */
+            height: 150px;
             filter: drop-shadow(0 0 15px var(--icon-shadow));
         }
 
@@ -113,88 +115,89 @@
         }
 
         .current-temp {
-            font-size: 80px;
+            font-size: 110px; /* Ingrandito */
             font-weight: 800;
-            line-height: 1;
+            line-height: 0.95;
+            letter-spacing: -3px;
         }
 
         .current-desc {
-            font-size: 22px;
+            font-size: 34px; /* Ingrandito notevolmente */
             color: var(--text-desc);
-            margin-top: 10px;
-            font-weight: 600;
+            margin-top: 15px;
+            font-weight: 800;
         }
 
         .min-max-today {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            font-size: 22px;
-            font-weight: 600;
-            border-left: 2px solid var(--border-color);
-            padding-left: 30px;
-            gap: 10px;
+            font-size: 28px; /* Ingrandito */
+            font-weight: 800;
+            border-left: 3px solid var(--border-color);
+            padding-left: 35px;
+            gap: 15px;
             transition: border-color 0.5s ease;
         }
 
-        .t-max { color: #ff6b6b; }
-        .t-min { color: #4facfe; }
+        .t-max { color: #ff5252; }
+        .t-min { color: #0099ff; }
 
         /* Sezione Inferiore (7 Giorni) */
         .forecast-section {
             display: flex;
             justify-content: space-between;
-            height: 330px;
+            height: 340px;
         }
 
         .day-card {
             background-color: var(--bg-section);
-            width: 150px;
-            border-radius: 15px;
+            width: 155px;
+            border-radius: 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 25px 10px;
+            padding: 25px 5px;
             justify-content: space-between;
             transition: transform 0.2s, background-color 0.5s ease;
         }
 
-        .day-card:hover { transform: translateY(-5px); }
-
-        .day-name { font-size: 22px; font-weight: 800; color: #4facfe; }
+        .day-name { font-size: 26px; font-weight: 800; color: #0099ff; }
         
         .day-date { 
-            font-size: 14px; 
+            font-size: 18px; /* Ingrandito */
             color: var(--text-secondary); 
-            margin-top: 5px; 
+            margin-top: 5px;
+            font-weight: 600;
         }
         
         .day-icon svg {
-            width: 70px;
-            height: 70px;
-            margin: 15px 0;
+            width: 75px; /* Ingrandito */
+            height: 75px;
+            margin: 10px 0;
         }
 
         .day-desc {
-            font-size: 13px;
+            font-size: 19px; /* Ingrandito */
             color: var(--text-desc);
             text-align: center;
-            height: 35px;
+            font-weight: 800;
+            height: 48px; /* Adattato per ospitare due righe comode */
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.2;
+            line-height: 1.1;
             padding: 0 5px;
         }
 
         .day-temps {
             text-align: center;
             margin-top: 15px;
-            font-size: 22px;
-            font-weight: 600;
+            font-size: 26px; /* Ingrandito */
+            font-weight: 800;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
     </style>
 </head>
@@ -229,11 +232,9 @@
     </div>
 
     <script>
-        // Coordinate per Sommariva del Bosco
         const LAT = 44.7667;
         const LON = 7.7833;
 
-        // Libreria Icone SVG in base alle condizioni (Stile Neon/Minimal)
         const icons = {
             sun: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="#ffd700"/><g stroke="#ffd700" stroke-width="6" stroke-linecap="round"><line x1="50" y1="5" x2="50" y2="15"/><line x1="50" y1="85" x2="50" y2="95"/><line x1="5" y1="50" x2="15" y2="50"/><line x1="85" y1="50" x2="95" y2="50"/><line x1="18" y1="18" x2="25" y2="25"/><line x1="75" y1="75" x2="82" y2="82"/><line x1="18" y1="82" x2="25" y2="75"/><line x1="75" y1="25" x2="82" y2="18"/></g></svg>`,
             partlyCloudy: `<svg viewBox="0 0 100 100"><circle cx="40" cy="40" r="20" fill="#ffd700"/><path d="M75,65 a15,15 0 0,0 -10,-14 a20,20 0 0,0 -35,5 a15,15 0 0,0 5,29 h40 a15,15 0 0,0 0,-20 z" fill="#a0aec0"/></svg>`,
@@ -244,7 +245,6 @@
             snow: `<svg viewBox="0 0 100 100"><path d="M75,55 a15,15 0 0,0 -10,-14 a20,20 0 0,0 -35,5 a15,15 0 0,0 5,29 h40 a15,15 0 0,0 0,-20 z" fill="#caf0f8"/><circle cx="40" cy="85" r="3" fill="#fff"/><circle cx="60" cy="85" r="3" fill="#fff"/><circle cx="50" cy="95" r="3" fill="#fff"/></svg>`
         };
 
-        // Mappatura codici meteo WMO in descrizioni e icone
         function getWeatherInfo(code) {
             if (code === 0) return { desc: "Soleggiato", icon: icons.sun };
             if (code === 1 || code === 2) return { desc: "Poco Nuvoloso", icon: icons.partlyCloudy };
@@ -259,7 +259,6 @@
             return { desc: "Variabile", icon: icons.partlyCloudy };
         }
 
-        // Formatta la data (Es: "MAR", "8/9")
         function formatDate(dateString) {
             const date = new Date(dateString);
             const days = ['DOM', 'LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB'];
@@ -271,15 +270,12 @@
 
         async function fetchWeather() {
             try {
-                // Chiamata API gratuita Open-Meteo
                 const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FRome`;
                 const response = await fetch(url);
                 const data = await response.json();
 
                 const current = data.current_weather;
                 
-                // --- GESTIONE TEMA CHIARO/SCURO ---
-                // Open-Meteo restituisce is_day: 1 (giorno) o 0 (notte)
                 if (current.is_day === 0) {
                     document.body.classList.add('dark-mode');
                 } else {
@@ -292,15 +288,12 @@
                 document.getElementById('current-desc').innerText = todayInfo.desc;
                 document.getElementById('current-icon').innerHTML = todayInfo.icon;
                 
-                // Max e Min di oggi
                 document.getElementById('today-max').innerText = `${Math.round(data.daily.temperature_2m_max[0])}°C`;
                 document.getElementById('today-min').innerText = `${Math.round(data.daily.temperature_2m_min[0])}°C`;
 
-                // Genera i 7 giorni (Sezione inferiore)
                 const forecastContainer = document.getElementById('forecast-container');
                 forecastContainer.innerHTML = '';
 
-                // Cicliamo sui prossimi 7 giorni
                 for (let i = 0; i < 7; i++) {
                     const dateInfo = formatDate(data.daily.time[i]);
                     const wInfo = getWeatherInfo(data.daily.weathercode[i]);
@@ -328,11 +321,10 @@
 
             } catch (error) {
                 console.error("Errore nel caricamento del meteo", error);
-                document.getElementById('current-desc').innerText = "Errore di caricamento";
+                document.getElementById('current-desc').innerText = "Errore";
             }
         }
 
-        // Avvia la funzione al caricamento della pagina
         fetchWeather();
     </script>
 </body>
